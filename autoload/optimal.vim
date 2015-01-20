@@ -1,4 +1,4 @@
-let s:optimal_options = {'lock' : {}, 'sync' : {}}
+let s:optimal_options = {'lock' : {}, 'sync' : {}, 'options' : vimple#options#new()}
 
 let myops = s:optimal_options
 function! optimal#is_locked(opt)
@@ -17,18 +17,28 @@ function! s:lock(lock, opt, value, msg)
   call optimal#log#add(opt, lock_str, [[was_locked, 1], value], msg)
 endfunction
 
-function! optimal#lock(opt, value, msg)
+function! optimal#set(opt, value)
   let ops = vimple#options#new().to_d()
   if ops[a:opt].type == 'bool'
     exe 'set ' (a:value == 1 ? '' : 'no') . a:opt
   else
     exe 'set ' a:opt . '=' . a:value
   endif
+endfunction
+
+function! optimal#lock(opt, value, msg)
+  call optimal#set(a:opt, a:value)
   call s:lock(1, a:opt, a:value, a:msg)
 endfunction
 
 function! optimal#unlock(opt, msg)
   call s:lock(0, a:opt, eval('&'.a:opt), a:msg)
+endfunction
+
+function! optimal#sync(optlist)
+  for opt in a:optlist
+    call extend(s:optimal_options.sync, {opt : a:optlist})
+  endfor
 endfunction
 
 function! optimal#check_locked()
@@ -42,23 +52,26 @@ function! optimal#check_locked()
   endfor
 endfunction
 
-function! optimal#sync(optlist)
-  for opt in a:optlist
+function! optimal#check_synced()
+  let changed_ops = s:optimal_options.options.changed().to_d()
+  call s:optimal_options.options.update()
+  let new_op_values = s:optimal_options.options.to_d()
+  for opt in items(s:optimal_options.sync)
+    if has_key(changed_ops, opt[0])
+      let v = new_op_values[opt[0]].value
+      for o in opt[1]
+        call optimal#set(o, v)
+      endfor
+    endif
   endfor
 endfunction
 
-
-
 function! optimal#update()
   call optimal#check_locked()
+  call optimal#check_synced()
 endfunction
-
-command! -nargs=+ Lock call optimal#lock(<f-args>)
 
 augroup Options
   au!
   au CursorHold * call optimal#update()
 augroup END
-
-" echo optimal#is_locked('ts')
-" call optimal#log#view()

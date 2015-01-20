@@ -14,7 +14,7 @@ function! optimal#log#view(...)
     echo 'Options Log:'
     echohl None
     for log in s:optimal_options_log
-      echo printf("%s\t%s\t%s\t%s\t%s\n", strftime("%d%H%M", log[0]), log[1], log[2], string(log[3]), log[4])
+      echo printf("%s\t%-16s\t%s\t%s\t%s\n", strftime("%d%H%M", log[0]), log[1], log[2], string(log[3]), log[4])
     endfor
   endif
 endfunction

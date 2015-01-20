@@ -7,3 +7,26 @@ TIP: If you like Optimal and want to share the W00t!, I'm grateful for
 https://www.gittip.com/bairuidahu/[tips] or
 http://of-vim-and-vigor.blogspot.com/[beverages].
 
+NOTE: The __functional__ code hasn't been written yet. Suggestions welcome.
+
+== Opinionated
+
+**Optimal** locks the following options by default:
+
+* `edcompatible`
+* `gdefault`
+* `magic`
+* `remap`
+* `smartindent`
+* `tabstop`
+* `textauto`
+* `textmode`
+
+== Synchronisable Options
+
+  call optimal#sync(['sw', 'sts'])
+
+Will keep these options in sync. Whenever a change is made to one of
+them, the associated options will be set to the same value.
+
+
