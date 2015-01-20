@@ -1,0 +1,9 @@
+Optimal
+-------
+
+__Opinionated, Functional Options Manager for Vim__
+
+TIP: If you like Optimal and want to share the W00t!, I'm grateful for
+https://www.gittip.com/bairuidahu/[tips] or
+http://of-vim-and-vigor.blogspot.com/[beverages].
+
