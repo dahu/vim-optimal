@@ -48,7 +48,7 @@ endif
 
 function! LockOptions(options)
   for opt in a:options
-    call options#lock(opt[0], opt[1], opt[2])
+    call optimal#lock(opt[0], opt[1], opt[2])
   endfor
 endfunction
 
