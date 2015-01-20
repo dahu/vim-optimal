@@ -17,49 +17,51 @@
 let s:save_cpo = &cpo
 set cpo&vim
 
-" load guard
-" uncomment after plugin development.
-" XXX The conditions are only as examples of how to use them. Change them as
-" needed. XXX
 "if exists("g:loaded_optimal")
 "      \ || v:version < 700
-"      \ || v:version == 703 && !has('patch338')
 "      \ || &compatible
 "  let &cpo = s:save_cpo
 "  finish
 "endif
-"let g:loaded_optimal = 1
+let g:loaded_optimal = 1
 
 " Options: {{{1
-if !exists('g:optimal_some_plugin_option')
-  let g:optimal_some_plugin_option = 0
+
+let s:opinionated_options = [
+      \  ['edcompatible', 0 , 'Altering this option is highly discouraged']
+      \, ['gdefault'    , 0 , 'Altering this option is highly discouraged']
+      \, ['magic'       , 1 , 'Locked for portability']
+      \, ['remap'       , 1 , 'Locked for portability']
+      \, ['smartindent' , 0 , 'This option has been deprecated']
+      \, ['tabstop'     , 8 , 'Tabstop should never be changed']
+      \, ['textauto'    , 0 , 'This option has been deprecated']
+      \, ['textmode'    , 0 , 'This option has been deprecated']
+      \]
+
+if !exists('g:optimal_opinionated_options')
+  let g:optimal_opinionated_options = s:opinionated_options
 endif
 
 " Private Functions: {{{1
-function! s:MyScriptLocalFunction()
-  echom "change MyScriptLocalFunction"
-endfunction
 
 " Public Interface: {{{1
-function! MyPublicFunction()
-  echom "change MyPublicFunction"
+
+function! LockOptions(options)
+  for opt in a:options
+    call options#lock(opt[0], opt[1], opt[2])
+  endfor
 endfunction
 
 " Maps: {{{1
-nnoremap <Plug>optimal1 :call <SID>MyScriptLocalFunction()<CR>
-nnoremap <Plug>optimal2 :call MyPublicFunction()<CR>
-
-if !hasmapto('<Plug>optimal1')
-  nmap <unique><silent> <Leader>p1 <Plug>optimal1
-endif
-
-if !hasmapto('<Plug>optimal2')
-  nmap <unique><silent> <Leader>p2 <Plug>optimal2
-endif
 
 " Commands: {{{1
-command! -nargs=0 -bar MyCommand1 call <SID>MyScriptLocalFunction()
-command! -nargs=0 -bar MyCommand2 call MyPublicFunction()
+
+" Autocommands: {{{1
+
+augroup OptimalInit
+  au!
+  au VimEnter * call LockOptions(g:optimal_opinionated_options)
+augroup END
 
 " Teardown: {{{1
 " reset &cpo back to users setting
