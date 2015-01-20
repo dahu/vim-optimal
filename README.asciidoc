@@ -7,6 +7,8 @@ TIP: If you like Optimal and want to share the W00t!, I'm grateful for
 https://www.gittip.com/bairuidahu/[tips] or
 http://of-vim-and-vigor.blogspot.com/[beverages].
 
+NOTE: Depends on https://github.com/dahu/vimple[vimple]
+
 NOTE: The __functional__ code hasn't been written yet. Suggestions welcome.
 
 == Opinionated
