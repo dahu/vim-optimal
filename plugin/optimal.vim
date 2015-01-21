@@ -5,7 +5,7 @@
 " 		2. Opinionated locks on "dangerous/deprecated" options
 " License:	Vim License (see :help license)
 " Location:	plugin/optimal.vim
-" Website:	https://github.com/dahu/optimal
+" Website:	https://github.com/dahu/vim-optimal
 "
 " See optimal.txt for help.  This can be accessed by doing:
 "
@@ -70,8 +70,6 @@ function! LockOptions(options)
     call optimal#lock(opt[0], opt[1], opt[2])
   endfor
 endfunction
-
-" Maps: {{{1
 
 " Commands: {{{1
 
