@@ -21,6 +21,12 @@ You can specify locked options that will be kept at their locked value. A
 user-provided warning message will be shown if any of the locked options is
 changed. See |optimal_opinionated_options| for configuration information.
 
+                                                            *optimal-sync*
+
+You can specify synchronised options that will be kept in unison. Whenever one
+option in a sync set is modified, all others in the same set are updated to the
+same value.
+
 Functions:~
 
 `LockOptions(options)`
@@ -39,13 +45,8 @@ Commands:~
 * `:OptimalLock opt val msg`	Lock option to value with violation message
 * `:OptimalUnlock opt`		Unlock option
 * `:OptimalSync opt ...`	Keep the list of options in sync
-* `:OptimalStopSync opt`	Stop synching option
+* `:OptimalUnSync opt`		Stop synching option
 
-                                                            *optimal-sync*
-
-You can specify synchronised options that will be kept in unison. Whenever one
-option in a sync set is modified, all others in the same set are updated to the
-same value.
 
 ==============================================================================
  2. CONFIGURATION                                  *optimal-configuration*
