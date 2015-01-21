@@ -4,99 +4,70 @@
 			VIM REFERENCE MANUAL	by Barry Arthur
 
 
-Help on using optimal                                                    *optimal*
+Help on using optimal                                            *optimal*
 
 1. Introduction				|optimal-intro|
 2. Configuration			|optimal-configuration|
 3. Other				|optimal-other|
 
 ==============================================================================
- 1. INTRODUCTION                                                  *optimal-intro*
+ 1. INTRODUCTION                                           *optimal-intro*
 
-NOTE: The all caps header needs a leading space and a tag at the end to be
-highlighted.
+vim-optimal is an opinionated |options| guard.
 
-Note that tags are usually right aligned.
+                                                            *optimal-lock*
 
-This is a nice introduction into the magic this wonderfull plugin provides.
-Links are defined by surrounding some text with bars "|", like |help-writing|.
-Use stars "*" to define tags, like this: *awesome-topic*
+You can specify locked options that will be kept at their locked value. A
+user-provided warning message will be shown if any of the locked options is
+changed. See |optimal_opinionated_options| for configuration information.
 
-NOTE: With conceal enabled the link/tag markers are hidden.
+Functions:~
 
-==============================================================================
- 2. CONFIGURATION                                         *optimal-configuration*
+`LockOptions(options)`
 
-It's good to follow Vim's convention on help tags as described in
-|help-context|. Something like this: *:ExCommand* , *'option'* ,
-*i_CTRL-X_CTRL-K* , etc.
+The `LockOptions()` function takes a list-of-lists as detailed in
+|optimal_opinionated_options|. This function is called automatically on
+|VimEnter|.
 
-Note: Variables used to modify a plugin behavior are usually surrounded by
-quotes as if they were options.
+* `optimal#lock(opt, val, msg)`	Lock option to value with violation message
+* `optimal#unlock(option)`	Unlock option
+* `optimal#sync([option, ...])`	Keep the list of options in sync
+* `optimal#unsync(option)`	Stop synching option
 
-|'optimal-option1'|		Does some magic.
-|'optimal-option2'|		Does some dark magic.
+Commands:~
 
+* `:OptimalLock opt val msg`	Lock option to value with violation message
+* `:OptimalUnlock opt`		Unlock option
+* `:OptimalSync opt ...`	Keep the list of options in sync
+* `:OptimalStopSync opt`	Stop synching option
 
-------------------------------------------------------------------------------
-                                                              *'optimal-option1'*
-Values: numeric                                                              ~
-Default: 1                                                                   ~
+                                                            *optimal-sync*
 
-NOTE: Add a trailing tilde "~" at the end of the line to get that
-highlighting. With conceal enabled the tilde will be hidden.
-
-Detailed description of what this variable modifies.
-
-------------------------------------------------------------------------------
-                                                              *'optimal-option2'*
-Values: string                                                               ~
-Default: 'abc'                                                               ~
-
-Detailed description of what this variable modifies.
+You can specify synchronised options that will be kept in unison. Whenever one
+option in a sync set is modified, all others in the same set are updated to the
+same value.
 
 ==============================================================================
- 3. OTHER                                                         *optimal-other*
+ 2. CONFIGURATION                                  *optimal-configuration*
 
-A block of indented text can be highlighted by ending the previous line with a
-greater than ">" character. The highlighting will end on a line with a less
-than character "<" as the first non-blank or any unindented line.
+|'optimal_opinionated_options'|	List of [option, value, violation-msg]
 
-Something like this: >
-
-	if a > b
-      echo a
-    else
-      echo b
-    endif
+------------------------------------------------------------------------------
+                                           *'optimal_opinionated_options'*
+Values: list of lists                                                        ~
+Default:
+>
+    ['edcompatible', 0 , 'Altering this option is highly discouraged']
+    ['gdefault'    , 0 , 'Altering this option is highly discouraged']
+    ['magic'       , 1 , 'Locked for portability']
+    ['remap'       , 1 , 'Locked for portability']
+    ['smartindent' , 0 , 'This option has been deprecated']
+    ['tabstop'     , 8 , 'Tabstop should never be changed']
+    ['textauto'    , 0 , 'This option has been deprecated']
+    ['textmode'    , 0 , 'This option has been deprecated']
 <
-Note that the less than and greater than chars will hidden when conceal is
-enabled.
 
-The tilde can be used to highlight column headers:
-
-		Header1   Header2   Header3 ~
-		---------------------------
-        item      entry1    entry2
-
-Lines starting with a tab that is followed by an asterisk that is also
-followed by the name of a highlight group will be highlighted using the colors
-for that highlighting group. e.g.:
-
-	*String	needs an actual tab before and after the '*String'
-	*Todo	needs an actual tab before and after the '*Todo'
-	*Error	needs an actual tab before and after the '*Error'
-
-There are some special cases that will be also highlighted:
-- <Anything>	<= Anything enclosed in <>.
-- {Another}	<= Anything enclosed in {}
-- CTRL-X	<= CTRL- followed by any char.
+==============================================================================
 
 Template From: https://github.com/dahu/Area-41/
  vim:tw=78:ts=8:ft=help:norl:
-optimal.txt
-
-:Author: Barry Arthur
-:Email: barry.arthur@gmail.com
-:Date: 2015-01-20 12:48
-
