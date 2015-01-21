@@ -30,7 +30,9 @@ set cpo&vim
 "endif
 "let g:loaded_lib_optimal = 1
 
-let s:optimal_options = {'lock' : {}, 'sync' : {}, 'options' : vimple#options#new()}
+if !exists('s:optimal_options')
+  let s:optimal_options = {'lock' : {}, 'sync' : {}, 'options' : vimple#options#new()}
+endif
 
 " Vim Script Information Function: {{{1
 
@@ -81,12 +83,6 @@ function! optimal#unlock(opt, msg)
   call s:lock(0, a:opt, eval('&'.a:opt), a:msg)
 endfunction
 
-function! optimal#sync(optlist)
-  for opt in a:optlist
-    call extend(s:optimal_options.sync, {opt : a:optlist})
-  endfor
-endfunction
-
 function! optimal#check_locked()
   for opt in items(s:optimal_options.lock)
     if (opt[1].locked == 1) && (eval('&'.opt[0]) != opt[1].value)
@@ -95,6 +91,12 @@ function! optimal#check_locked()
       echohl None
       exe 'let &' . opt[0] . " = '" . substitute(opt[1].value, "'", "''", "g") . "'"
     endif
+  endfor
+endfunction
+
+function! optimal#sync(optlist)
+  for opt in a:optlist
+    call extend(s:optimal_options.sync, {opt : a:optlist})
   endfor
 endfunction
 
@@ -113,10 +115,10 @@ function! optimal#check_synced()
 endfunction
 
 function! optimal#unsync(opt)
-  if !has_key(s:optimal_options, a:opt)
+  if !has_key(s:optimal_options.sync, a:opt)
     return
   endif
-  let list s:optimal_options.sync[a:opt]
+  let list = s:optimal_options.sync[a:opt]
   call filter(s:optimal_options.sync, 'v:val !=# list')
 endfunction
 
