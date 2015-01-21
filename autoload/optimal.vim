@@ -116,7 +116,8 @@ function! optimal#unsync(opt)
   if !has_key(s:optimal_options, a:opt)
     return
   endif
-  call filter(s:optimal_options.sync, 'v:val !=# s:optimal_options.sync[a:opt]')
+  let list s:optimal_options.sync[a:opt]
+  call filter(s:optimal_options.sync, 'v:val !=# list')
 endfunction
 
 function! optimal#update()
