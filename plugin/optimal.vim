@@ -33,7 +33,6 @@ let s:opinionated_options = [
       \, ['magic'       , 1 , 'Locked for portability']
       \, ['remap'       , 1 , 'Locked for portability']
       \, ['smartindent' , 0 , 'This option has been deprecated']
-      \, ['tabstop'     , 8 , 'Tabstop should never be changed']
       \, ['textauto'    , 0 , 'This option has been deprecated']
       \, ['textmode'    , 0 , 'This option has been deprecated']
       \]

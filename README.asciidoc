@@ -20,7 +20,6 @@ NOTE: The __functional__ code hasn't been written yet. Suggestions welcome.
 * `magic`
 * `remap`
 * `smartindent`
-* `tabstop`
 * `textauto`
 * `textmode`
 
