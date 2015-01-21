@@ -1,12 +1,5 @@
 let s:optimal_options = {'lock' : {}, 'sync' : {}, 'options' : vimple#options#new()}
 
-let myops = s:optimal_options
-function! optimal#is_locked(opt)
-  let opt = a:opt
-  if !has_key(s:optimal_options.lock, opt)
-    let s:optimal_options.lock[opt] = {'locked' : -1}
-  endif
-  return s:optimal_options.lock[opt].locked
 endfunction
 
 function! s:lock(lock, opt, value, msg)
@@ -15,6 +8,14 @@ function! s:lock(lock, opt, value, msg)
   let was_locked = optimal#is_locked(opt)
   call extend(s:optimal_options.lock[opt], {'locked' : lock, 'value' : value})
   call optimal#log#add(opt, lock_str, [[was_locked, 1], value], msg)
+endfunction
+
+function! optimal#is_locked(opt)
+  let opt = a:opt
+  if !has_key(s:optimal_options.lock, opt)
+    let s:optimal_options.lock[opt] = {'locked' : -1}
+  endif
+  return s:optimal_options.lock[opt].locked
 endfunction
 
 function! optimal#set(opt, value)
@@ -66,12 +67,15 @@ function! optimal#check_synced()
   endfor
 endfunction
 
+function! optimal#stop_sync(opt)
+  if !has_key(s:optimal_options, a:opt)
+    return
+  endif
+  call filter(s:optimal_options.sync, 'v:val !=# s:optimal_options.sync[a:opt]')
+endfunction
+
 function! optimal#update()
   call optimal#check_locked()
   call optimal#check_synced()
 endfunction
 
-augroup Options
-  au!
-  au CursorHold * call optimal#update()
-augroup END

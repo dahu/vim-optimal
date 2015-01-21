@@ -44,6 +44,25 @@ endif
 
 " Private Functions: {{{1
 
+function! s:lock(...)
+  if a:0 < 2
+    return
+  endif
+  let opt = a:1
+  let val = a:2
+  let msg = a:2 > 2 ? join(a:000[2:], ' ') : 'Option locked by the user.'
+  call optimal#lock(opt, val, msg)
+endfunction
+
+function! s:unlock(...)
+  if !a:0
+    return
+  endif
+  let opt = a:1
+  let msg = a:2 > 1 ? join(a:000[1:], ' ') : 'Option unlocked by the user.'
+  call optimal#lock(opt, msg)
+endfunction
+
 " Public Interface: {{{1
 
 function! LockOptions(options)
@@ -56,11 +75,17 @@ endfunction
 
 " Commands: {{{1
 
+command! -nargs=+ OptimalLock call optimal#lock(<f-args>)
+command! -nargs=+ OptimalUnlock call optimal#unlock(<f-args>)
+command! -nargs=+ OptimalSync call optimal#sync([<f-args>])
+command! -nargs=1 OptimalStopSync call optimal#stop_sync(<q-args>)
+
 " Autocommands: {{{1
 
 augroup OptimalInit
   au!
   au VimEnter * call LockOptions(g:optimal_opinionated_options)
+  au CursorHold * call optimal#update()
 augroup END
 
 " Teardown: {{{1
