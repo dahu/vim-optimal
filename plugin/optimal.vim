@@ -76,7 +76,7 @@ endfunction
 command! -nargs=+ OptimalLock call optimal#lock(<f-args>)
 command! -nargs=+ OptimalUnlock call optimal#unlock(<f-args>)
 command! -nargs=+ OptimalSync call optimal#sync([<f-args>])
-command! -nargs=1 OptimalStopSync call optimal#stop_sync(<q-args>)
+command! -nargs=1 OptimalUnsync call optimal#unsync(<q-args>)
 
 " Autocommands: {{{1
 

@@ -112,7 +112,7 @@ function! optimal#check_synced()
   endfor
 endfunction
 
-function! optimal#stop_sync(opt)
+function! optimal#unsync(opt)
   if !has_key(s:optimal_options, a:opt)
     return
   endif
